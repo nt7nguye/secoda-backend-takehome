@@ -7,15 +7,15 @@ def connectView(request, db_url):
     try:
         engine = create_engine(db_url)
     except Exception as err:
-        return HttpResponse(f'Error: {err}')
+        return HttpResponse(f'DB URL error: {err}')
 
     # Crafting the response
     dbMetadata = []
     dbName = engine.url.database
 
-    # Get the schema names using a SQL query
-    schemaNames = []
     with engine.connect() as conn:
+        # Get the schema names using a SQL query
+        schemaNames = []
         query = "SELECT schema_name FROM information_schema.schemata"
         result = conn.execute(text(query))
 
@@ -24,6 +24,28 @@ def connectView(request, db_url):
             schemaNames.append(row[0])
 
         # Close the resultset
+        result.close()
+
+        # Get approx stats of number of rows in each schema
+        numRowsResult = {}
+        query = "SELECT schemaname,relname,n_live_tup \
+                FROM pg_stat_all_tables  \
+                ORDER BY n_live_tup DESC;"
+        result = conn.execute(text(query))
+
+        # Fetch rows of the query and iterate through them
+        rows = result.fetchall()
+        for row in rows:
+            schemaName = row[0]
+            tableName = row[1]
+            num_rows = row[2]
+
+            # If the schema is not in the dictionary, add it
+            if schemaName not in numRowsResult:
+                numRowsResult[schemaName] = {}
+
+            # Add the table name and number of rows to the dictionary
+            numRowsResult[schemaName][tableName] = num_rows
         result.close()
 
         # Get a metadata object for the database 
@@ -43,22 +65,18 @@ def connectView(request, db_url):
                         'name': col.name,
                         'type': str(col.type)
                     })
-
-                # Parse number of rows
-                num_rows = table.info.get('rows')
-                if num_rows is None:
-                    # If the number of rows is not specified, query the table
-                    try:
-                        query = select(func.count()).select_from(text(table.name))
-                        num_rows = conn.execute(query).scalar()
-                    except Exception as err:
-                        # Display -1 if the query fails 
-                        num_rows = -1 
+                
+                # Get number of rows
+                try:
+                    numRows = numRowsResult[schemaName][table.name]
+                except KeyError:
+                    # numRows calculation is an approximation
+                    numRows = -1
 
                 # Craft the table metadata     
                 tableMetadata = {
                     'columns': colMetadata, 
-                    'num_rows': num_rows, 
+                    'num_rows': numRows, 
                     'schema': schemaName,
                     'database': dbName
                 }
