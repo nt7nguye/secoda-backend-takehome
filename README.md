@@ -2,9 +2,9 @@
 
 ## Deployed version
 
-Try the test database at `https://secoda-backend-takehome-928ddbfcc981.herokuapp.com/connect/postgresql+psycopg2://postgres:MB7fymjjBVNZGL8jnJEb@db.geqgitsqodgmqroopasx.supabase.co/postgres`
+Try the test database at this [link](https://secoda-backend-takehome-928ddbfcc981.herokuapp.com/connect/postgresql+psycopg2://postgres:MB7fymjjBVNZGL8jnJEb@db.geqgitsqodgmqroopasx.supabase.co/postgres)
 
-The server is hosted with heroku at `https://secoda-backend-takehome-928ddbfcc981.herokuapp.com/`.
+The Django server is hosted with heroku at `https://secoda-backend-takehome-928ddbfcc981.herokuapp.com`.
 
 The endpoint format is `/connect/dialect[+driver]://user:password@host/dbname`
 
@@ -14,13 +14,8 @@ Full response in `test_response.json`
 0. Clone the project
 1. Run `pip install -r requirements.txt` to install neccessary deps
 2. Run `python manage.py runserver` to start the Django server locally
-
-## Sample API call: 
-
-1. Navigate your browser or make a GET request to 
-`http://127.0.0.1:8000/connect/postgresql+psycopg2://postgres:MB7fymjjBVNZGL8jnJEb@db.geqgitsqodgmqroopasx.supabase.co/postgres`
-
-to connect to the test database.
+3. Navigate your browser or make a GET request to 
+`http://127.0.0.1:8000/connect/postgresql+psycopg2://postgres:MB7fymjjBVNZGL8jnJEb@db.geqgitsqodgmqroopasx.supabase.co/postgres` to connect to the test database.
 
 
 ## Remaining challenges and possible improvements:
