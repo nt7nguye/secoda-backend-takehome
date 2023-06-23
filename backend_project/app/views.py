@@ -75,6 +75,7 @@ def connectView(request, db_url):
 
                 # Craft the table metadata     
                 tableMetadata = {
+                    'name': table.name, # Not required but useful for debugging
                     'columns': colMetadata, 
                     'num_rows': numRows, 
                     'schema': schemaName,
