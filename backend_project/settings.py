@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-@o#6_hy@4l_)*p0jcx*-_#0j+*mdqm)9(ej1=uh2c+$e4-2+&d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['secoda-backend-takehome-928ddbfcc981.herokuapp.com']
 
 
 # Application definition
