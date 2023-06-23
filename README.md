@@ -19,3 +19,9 @@ The endpoint format is `/connect/dialect[+driver]://user:password@host/dbname`
 2. We're approximating num_rows through `pg_stat_all_tables` table. It's much faster than querying `COUNT(*)` on every table but it's not completely accurate and doesn't contain every table.
 3. Only work for PostGreSQL and requires `psycopg2` driver. The server doesn't have other drivers installed so using anything else would break it.
 4. Abstracting the error messages would be more secure than passing them back directly, which exposes our internal implementation.
+
+## Sample response 
+
+![image](https://github.com/nt7nguye/secoda-backend-takehome/assets/45516852/64dc9027-b3c5-4e64-a677-e3d5d2de55b1)
+
+Full response in `test_response.json`
